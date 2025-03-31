@@ -2,7 +2,16 @@
  * @param {number[]} prices
  * @return {number}
  */
-const maxProfit = (prices) => {
+
+/* 
+Make 2 dp array for storing buy and sell max maxProfitGreedy
+first day: buy[0] = -prices[0]
+           sell[0] = 0 (if buy then sell then 0 profit) 
+for each of next days:
+buy profit = max of do nothing (sell[day - 1]) and sell stock (buyDp[day - 1] + prices[day])
+sell profit = max of do notthing (buyDp[day - 1]) and buy new stock (sellDp[day - 1] - prices[day])
+*/
+const maxProfitTabulation = (prices) => {
     const buyDp = [-prices[0]];
     const sellDp = [0];
     for (let day = 1; day < prices.length; day++) {
@@ -19,6 +28,19 @@ const maxProfit = (prices) => {
     return sellDp[prices.length - 1];
 };
 
+// Only add the diff prices to max if next is higher than current
+const maxProfitGreedy = (prices) => {
+    let max = 0;
+    for (let day = 0; day < prices.length - 1; day++) {
+        const currentPrice = prices[day];
+        const nextPrice = prices[day + 1];
+        if (nextPrice > currentPrice) {
+            max += nextPrice - currentPrice;
+        }
+    }
+    return max;
+};
+
 const prices = [7, 1, 5, 3, 6, 4];
 
-console.log(maxProfit(prices));
+console.log(maxProfitGreedy(prices));
