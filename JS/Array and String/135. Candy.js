@@ -9,24 +9,24 @@
  * @return {number}
  */
 const candy = (ratings) => {
-  const childWithCandies = new Array(ratings.length).fill(1);
-  for (let i = 1; i < ratings.length; i++) {
-    if (
-      ratings[i] > ratings[i - 1] &&
-      childWithCandies[i] <= childWithCandies[i - 1]
-    ) {
-      childWithCandies[i] = childWithCandies[i - 1] + 1;
+    const childWithCandies = new Array(ratings.length).fill(1);
+    for (let i = 1; i < ratings.length; i++) {
+        if (
+            ratings[i] > ratings[i - 1] &&
+            childWithCandies[i] <= childWithCandies[i - 1]
+        ) {
+            childWithCandies[i] = childWithCandies[i - 1] + 1;
+        }
     }
-  }
-  for (let i = ratings.length - 2; i >= 0; i--) {
-    if (
-      ratings[i] > ratings[i + 1] &&
-      childWithCandies[i] <= childWithCandies[i + 1]
-    ) {
-      childWithCandies[i] = childWithCandies[i + 1] + 1;
+    for (let i = ratings.length - 2; i >= 0; i--) {
+        if (
+            ratings[i] > ratings[i + 1] &&
+            childWithCandies[i] <= childWithCandies[i + 1]
+        ) {
+            childWithCandies[i] = childWithCandies[i + 1] + 1;
+        }
     }
-  }
-  return childWithCandies.reduce((total, child) => total + child, 0);
+    return childWithCandies.reduce((total, child) => total + child, 0);
 };
 
 const ratings = [1, 2, 2];

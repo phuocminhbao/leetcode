@@ -32,18 +32,18 @@
  * @return {number}
  */
 var lengthOfLongestSubstring = function (s) {
-  const sArr = s.split("");
-  let maxlength = 0;
-  let str = "";
-  sArr.forEach((char) => {
-    if (str.includes(char)) {
-      const duplicateIndex = str.indexOf(char);
-      str = str.slice(duplicateIndex + 1);
-    }
-    str += char;
-    maxlength = maxlength > str.length ? maxlength : str.length;
-  });
-  return maxlength;
+    const sArr = s.split("");
+    let maxlength = 0;
+    let str = "";
+    sArr.forEach((char) => {
+        if (str.includes(char)) {
+            const duplicateIndex = str.indexOf(char);
+            str = str.slice(duplicateIndex + 1);
+        }
+        str += char;
+        maxlength = maxlength > str.length ? maxlength : str.length;
+    });
+    return maxlength;
 };
 
 const res1 = lengthOfLongestSubstring("abcabcbb") === 3;

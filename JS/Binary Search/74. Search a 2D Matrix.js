@@ -4,7 +4,7 @@
  * @return {boolean}
  */
 
-const searchInsert = (nums, target) => {
+const isExisting = (nums, target) => {
     let l = 0,
         r = nums.length - 1;
     while (l <= r) {
