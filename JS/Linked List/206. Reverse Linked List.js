@@ -1,9 +1,4 @@
-class ListNode {
-    constructor(val, next) {
-        this.val = val === undefined ? 0 : val;
-        this.next = next === undefined ? null : next;
-    }
-}
+import { ListNode } from "./utils.js";
 
 /**
  * Definition for singly-linked list.

@@ -6,12 +6,7 @@
  * }
  */
 
-class ListNode {
-    constructor(val, next) {
-        this.val = val === undefined ? 0 : val;
-        this.next = next === undefined ? null : next;
-    }
-}
+import { ListNode } from "./utils.js";
 
 const toListNode = (arr) => {
     if (arr.length === 1) return new ListNode(arr[0]);
