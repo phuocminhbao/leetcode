@@ -13,8 +13,15 @@ import { ListNode, createLinkedList } from "./utils.js";
  * @return {boolean}
  */
 const hasCycle = (head) => {
-    const a = new ListNode(1);
-    return a;
+    let curr = head;
+    while (curr) {
+        if (curr.val === "arrived") {
+            return true;
+        }
+        curr.val = "arrived";
+        curr = curr.next;
+    }
+    return false;
 };
 
 const arr = [3, 2, 0, -4];
