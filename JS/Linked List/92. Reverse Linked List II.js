@@ -92,4 +92,5 @@ const reverseBetween = (head, left, right) => {
 
 const head = createLinkedList([1, 2, 3, 4, 5]);
 reverseBetween(head, 1, 2);
-debugger;
+
+export { reverseBetween };
