@@ -2,6 +2,13 @@ class TreeNode {
     val;
     left;
     right;
+
+    /**
+     * Contructor
+     * @param {number} val
+     * @param {TreeNode} left
+     * @param {TreeNode}} right
+     */
     constructor(val, left, right) {
         this.val = val === undefined ? 0 : val;
         this.left = left === undefined ? null : left;
@@ -9,6 +16,12 @@ class TreeNode {
     }
 }
 
+/**
+ * Description placeholder
+ *
+ * @param {number[]} array
+ * @returns {TreeNode}
+ */
 const createBinaryTreeFromArray = (array) => {
     if (!array || array.length === 0) {
         return null;
@@ -43,4 +56,42 @@ const createBinaryTreeFromArray = (array) => {
     return root;
 };
 
-export { TreeNode, createBinaryTreeFromArray };
+/**
+ * Description placeholder
+ *
+ * @param {TreeNode} root
+ * @returns {number[]}
+ */
+const createArrayFromBinaryTree = (root) => {
+    if (!root) {
+        return [];
+    }
+
+    const result = [];
+    const queue = [root];
+
+    // Use BFS to traverse the tree level by level
+    while (queue.length > 0) {
+        const node = queue.shift();
+
+        if (node === null) {
+            result.push(null);
+        } else {
+            result.push(node.val);
+
+            // We need to add null nodes to the queue to maintain the structure
+            // but we'll stop adding nulls to the queue if both children are null
+            queue.push(node.left !== null ? node.left : null);
+            queue.push(node.right !== null ? node.right : null);
+        }
+    }
+
+    // Remove trailing nulls as they're not needed in the array representation
+    while (result.length > 0 && result[result.length - 1] === null) {
+        result.pop();
+    }
+
+    return result;
+};
+
+export { TreeNode, createBinaryTreeFromArray, createArrayFromBinaryTree };
