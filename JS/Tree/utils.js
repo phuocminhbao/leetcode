@@ -7,7 +7,7 @@ class TreeNode {
      * Contructor
      * @param {number} val
      * @param {TreeNode} left
-     * @param {TreeNode}} right
+     * @param {TreeNode} right
      */
     constructor(val, left, right) {
         this.val = val === undefined ? 0 : val;
