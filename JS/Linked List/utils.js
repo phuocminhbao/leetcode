@@ -15,9 +15,20 @@ const createLinkedList = (arr) => {
 class ListNode {
     val;
     next;
-    constructor(val, next) {
-        this.val = val === undefined ? 0 : val;
-        this.next = next === undefined ? null : next;
+    previous;
+
+    /**
+     * Creates an instance of ListNode.
+     *
+     * @constructor
+     * @param {number} [val=0]
+     * @param {ListNode} [next=null]
+     * @param {ListNode} [previous=null]
+     */
+    constructor(val = 0, next = null, previous = null) {
+        this.val = val;
+        this.next = next;
+        this.previous = previous;
     }
 }
 
