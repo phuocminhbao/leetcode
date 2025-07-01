@@ -94,4 +94,30 @@ const createArrayFromBinaryTree = (root) => {
     return result;
 };
 
-export { TreeNode, createBinaryTreeFromArray, createArrayFromBinaryTree };
+/**
+ * Find a node by its value in tree where all nodes' value are unique
+ * @param {TreeNode} root
+ */
+const findNodeByValue = (root, value) => {
+    const findNode = (node) => {
+        if (!node) {
+            return;
+        }
+        if (node.val === value) {
+            return node;
+        }
+        return findNode(node.left) || findNode(node.right);
+    };
+    const res = findNode(root);
+    if (!res) {
+        throw new Error("Node not found");
+    }
+    return res;
+};
+
+export {
+    TreeNode,
+    createBinaryTreeFromArray,
+    createArrayFromBinaryTree,
+    findNodeByValue,
+};
