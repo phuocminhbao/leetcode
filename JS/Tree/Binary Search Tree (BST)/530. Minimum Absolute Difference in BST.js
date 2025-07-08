@@ -12,21 +12,28 @@ import { TreeNode, createBinaryTreeFromArray } from "../utils.js";
  * @return {number}
  */
 const getMinimumDifference = (root) => {
-    if (!root) {
-        return Infinity;
-    }
-    const { val, left, right } = root;
-    const currMin = Math.min(
-        val - (left?.val ?? Infinity),
-        (right?.val ?? Infinity) - val
-    );
-    return Math.min(
-        currMin,
-        getMinimumDifference(left),
-        getMinimumDifference(right)
-    );
+    let min = Infinity,
+        preNode = null;
+
+    // preDirection: left, right
+    const cal = (node) => {
+        if (!node) {
+            return;
+        }
+        const { val, left, right } = node;
+        if (left) {
+            cal(left);
+        }
+        if (preNode) {
+            min = Math.min(min, val - preNode.val);
+        }
+        preNode = node;
+        cal(right);
+    };
+    cal(root);
+    return min;
 };
 
-const treeArr = [1, null, 3, 2];
+const treeArr = [0, null, 2236, 1277, 2776, 519];
 const root = createBinaryTreeFromArray(treeArr);
 console.log(getMinimumDifference(root));
