@@ -13,22 +13,29 @@ import { TreeNode, createBinaryTreeFromArray } from "../utils.js";
  * @return {boolean}
  */
 const isValidBST = (root) => {
-    let preNode,
-        isValid = true;
-    const search = (node) => {
-        if (!node) {
+    let preNode = null,
+        res = true;
+    const isValid = (node) => {
+        if (!node || !res) {
             return;
         }
         const { left, val, right } = node;
         if (left) {
-            search(left);
+            isValid(left);
+        }
+        if (!res) {
+            return;
         }
         if (preNode) {
-            isValid = preNode.val > val;
+            res = preNode.val < val;
         }
+        preNode = node;
+        isValid(right);
     };
+    isValid(root);
+    return res;
 };
 
-const rootArr = [3, 1, 4, null, 2];
+const rootArr = [5, 4, 6, null, null, 3, 7];
 const root = createBinaryTreeFromArray(rootArr);
 console.log(isValidBST(root));

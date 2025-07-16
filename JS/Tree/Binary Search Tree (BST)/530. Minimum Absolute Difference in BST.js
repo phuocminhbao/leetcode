@@ -15,7 +15,6 @@ const getMinimumDifference = (root) => {
     let min = Infinity,
         preNode = null;
 
-    // preDirection: left, right
     const cal = (node) => {
         if (!node) {
             return;
