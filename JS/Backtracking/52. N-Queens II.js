@@ -4,50 +4,45 @@
  */
 const totalNQueens = (n) => {
     let numberOfPlacings = 0;
-    const chessBoard = [...new Array(n)].map(() => new Array(n).fill(0));
-    const fullFill = (col, row, direction, isBlock) => {
-        const value = isBlock ? 1 : 0;
-        if (direction === "horizontal") {
-            chessBoard[row].fill(value);
-            return;
-        }
-        if (direction === "vertical") {
-            chessBoard.forEach((currRow) => {
-                currRow[col] = value;
-            });
-            return;
-        }
-        // Down diagonal
-        let c = col,
-            r = row;
-        while (c < n && r < n) {
-            chessBoard[r][c] = value;
-            c++;
-            r++;
-        }
-        // Top diagonal
-        c = col;
-        r = row;
-        while (c < n && r < n) {
-            chessBoard[r][c] = value;
-            c--;
-            r--;
-        }
-    };
-    const backtrack = (r, c, remaing) => {
+    const visitedCols = {};
+    const visitedDiagonalLeft = {};
+    const visitedDiagonalRight = {};
+
+    const backtrack = (row, remaing) => {
         if (remaing === 0) {
             numberOfPlacings++;
             return;
         }
-        if (r >= n || c >= n) {
+        if (row >= n) {
             return;
         }
 
-        for (let row = 0; row < n; row++) {
-            for (let col = 0; col <= n; col++) {}
+        for (let col = 0; col < n; col++) {
+            // Vertical
+            if (visitedCols[col]) {
+                continue;
+            }
+            const diagonalLeft = row - col;
+            const diagonalRight = row + col;
+            // Diagonal
+            if (
+                visitedDiagonalLeft[diagonalLeft] ||
+                visitedDiagonalRight[diagonalRight]
+            ) {
+                continue;
+            }
+
+            // Placeable
+            visitedCols[col] = true;
+            visitedDiagonalLeft[diagonalLeft] = true;
+            visitedDiagonalRight[diagonalRight] = true;
+            backtrack(row + 1, remaing - 1);
+            visitedCols[col] = false;
+            visitedDiagonalLeft[diagonalLeft] = false;
+            visitedDiagonalRight[diagonalRight] = false;
         }
     };
-    backtrack(0, 0, n);
+    backtrack(0, n);
     return numberOfPlacings;
 };
 
