@@ -1,60 +1,55 @@
 import { Queue } from "datastructures-js";
-
 /**
  * @param {number} numCourses
  * @param {number[][]} prerequisites
  * @return {boolean}
  */
 const canFinish = (numCourses, prerequisites) => {
-    /**
-     * @type {Record<number, Set<number>}
-     */
+    if (prerequisites.length === 0) {
+        return true;
+    }
     const graph = {};
-    for (let i = 0; i < prerequisites.length; i++) {
-        const [course, prerequisite] = prerequisites[i];
-        if (!graph[course]) {
-            graph[course] = new Set();
-        }
-        graph[course].add(prerequisite);
-        if (!graph[prerequisite]) {
-            graph[prerequisite] = new Set();
+    // initialize every course, including isolated ones
+    for (let i = 0; i < numCourses; i++) {
+        graph[i] = { inDegree: 0, neighbours: [] };
+    }
+
+    for (const [course, prerequisite] of prerequisites) {
+        graph[course].inDegree++;
+        graph[prerequisite].neighbours.push(course);
+    }
+    const queue = new Queue();
+    const result = [];
+
+    for (const [course, { inDegree }] of Object.entries(graph)) {
+        if (inDegree === 0) {
+            queue.enqueue(Number(course));
         }
     }
 
-    /**
-     * @param {number} course
-     * @returns {boolean}
-     */
-    const bfs = (course) => {
-        /**
-         * @type {Queue<number>}}
-         */
-        const queue = new Queue([course]);
-        const totalCourses = new Set([course]);
-        while (queue.size() > 0) {
-            const learningCourse = queue.pop();
-            if (totalCourses.size > numCourses) {
-                return false;
+    while (!queue.isEmpty()) {
+        const course = queue.dequeue();
+        result.push(course);
+        const { neighbours } = graph[course];
+        for (const neighbourCourse of neighbours) {
+            graph[neighbourCourse].inDegree--;
+            if (graph[neighbourCourse].inDegree === 0) {
+                queue.push(neighbourCourse);
             }
-            graph[learningCourse].forEach((requiredCourse) => {
-                queue.push(requiredCourse);
-                totalCourses.add(requiredCourse);
-            });
         }
-        return totalCourses.size <= numCourses;
-    };
+    }
 
-    return Object.keys(graph).every((course) => {
-        return bfs(Number(course));
-    });
+    return result.length === numCourses;
 };
 
-const numCourses = 4;
+const numCourses = 5;
 const prerequisites1 = [
-    // [
-    //     [0, 1],
-    //     [1, 0],
-    // ],
+    [
+        [1, 4],
+        [2, 4],
+        [3, 1],
+        [3, 2],
+    ],
     // [
     //     [0, 1],
     //     [1, 2],
@@ -70,16 +65,16 @@ const prerequisites1 = [
     //     [4, 3],
     // ],
     // [[5, 5]],
-    [
-        [2, 0],
-        [1, 0],
-        [3, 1],
-        [3, 2],
-        [1, 3],
-    ],
+    // [
+    //     [2, 0],
+    //     [1, 0],
+    //     [3, 1],
+    //     [3, 2],
+    //     [1, 3],
+    // ],
 ];
 
 const res = prerequisites1.map((prerequisites) =>
-    canFinish(numCourses, prerequisites)
+    canFinish(numCourses, prerequisites),
 );
 debugger;
